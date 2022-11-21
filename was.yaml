@@ -13,7 +13,7 @@ spec:
         app: was
     spec:
       containers:
-      - image: 164134553042.dkr.ecr.ap-northeast-2.amazonaws.com/ana-test-ecr-repo:latest
+      - image: 164134553042.dkr.ecr.ap-northeast-2.amazonaws.com/ana-test-ecr-repo:25
         imagePullPolicy: Always
         name: was
         ports:

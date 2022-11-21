@@ -12,6 +12,7 @@ phases:
       - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
       - export LATEST_BUILD=$(aws codebuild list-builds | jq '.ids[0]')
       - export LATEST_BUILD_NUMBER=$(aws codebuild batch-get-builds --ids ${LATEST_BUILD:1:-1} | jq '.builds[0].buildNumber')
+      - export LATEST_BUILD_NUMBER=$((INT=$((LATEST_BUILD_NUMBER))+1))
      #- aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $AWS_CLUSTER_NAME
   build:
     commands:
@@ -19,7 +20,7 @@ phases:
       - echo Building the Docker image...
         #- mvn clean package
       - docker build -t $IMAGE_REPO_NAME .
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$LATEST_BUILD_NUMBER
+      - docker tag $IMAGE_REPO_NAME:$LATEST_BUILD_NUMBER $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$LATEST_BUILD_NUMBER
   post_build:
     commands:
       - echo Build completed on 'date'
