@@ -1,16 +1,16 @@
 version: 0.2
 phases:
-  install:
-    runtime-versions:
-      java: corretto17
+  #install:
+    #runtime-versions:
+      #java: corretto17
   pre_build:
     commands:
       - echo Logging in to Amazon ECR, EKS
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-      - sed -i 's@CONTAINER_IMAGE@'"$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG"'@' was.yaml
-      - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
-      - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
-      - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $AWS_CLUSTER_NAME
+     #- sed -i 's@CONTAINER_IMAGE@'"$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG"'@' was.yaml
+     #- export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+     #- export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+     #- aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $AWS_CLUSTER_NAME
   build:
     commands:
       - echo Build started on 'date'
@@ -23,7 +23,7 @@ phases:
       - echo Build completed on 'date'
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-      - kubectl apply -f was.yaml 
+     #- kubectl apply -f was.yaml 
 cache:
   paths:
     - '/root/.m2/**/*'
