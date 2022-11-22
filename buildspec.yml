@@ -17,11 +17,11 @@ phases:
       - echo Build completed on 'date'
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-      - ls -la 
       - aws s3 cp s3://my-gitkey-bucket/ ~/.ssh/ --recursive
       - chmod 400 ~/.ssh/id_*
-      - git clone git@github.com:jin4363/cicd-test.git
-      - cd cicd-test/
+      - git clone git@github.com:jin4363/argo-test.git
+      - cp -r yaml argo-test/yaml
+      - cd argo-test/
       - git add .
       - git commit -m "latest build"
       - git push
